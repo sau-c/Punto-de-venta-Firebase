@@ -131,8 +131,12 @@ public class ProveActivity extends AppCompatActivity {
                         for (Accesorio accesorioTemp : accesoriosTemp) {
                             Accesorio matchingTempAccesorio = findMatchingAccesorio(accesorioTemp, accesorios);
 
-                            if (matchingTempAccesorio == null || accesorioTemp.getStock() != matchingTempAccesorio.getStock()) {
-                                // Si el accesorio no se encuentra en "accesorios_temp" o el stock es diferente
+                            if (accesorioTemp.getStock() != matchingTempAccesorio.getStock()) {
+                                // Si el stock es diferente
+                                int diferencia = matchingTempAccesorio.getStock() - accesorioTemp.getStock();
+                                String mensaje = diferencia < 0 ? "SOBRAN " : "FALTAN ";
+                                mensaje += Math.abs(diferencia) + " pzs.";
+                                accesorioTemp.setTiempo(mensaje);
                                 accesorioList.add(accesorioTemp);
                             }
                         }
@@ -140,9 +144,12 @@ public class ProveActivity extends AppCompatActivity {
                         // Verificar los elementos que no contaste pero que existen en "accesorios"
                         for (Accesorio accesorio : accesorios) {
                             if (findMatchingAccesorio(accesorio, accesoriosTemp) == null) {
+                                accesorio.setStock(0);
+                                accesorio.setTiempo("FALTA EN SU TOTALIDAD");
                                 accesorioList.add(accesorio);
                             }
                         }
+                        accesorioAdapter.notifyDataSetChanged();
 
                         if (accesorioList.isEmpty()) {
                             tTile.setText("TODO CORRECTO");
