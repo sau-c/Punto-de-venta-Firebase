@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_welcome.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="50dp" >
+
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/montserrat"
+        android:paddingTop="20dp"
+        android:text="Registrar producto"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_500"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="top"
+        app:iconPadding="-20dp"
+        app:iconSize="80dp" />
+
+    <Button
+        android:id="@+id/buttonProve"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/montserrat"
+        android:paddingTop="20dp"
+        android:text="Hacer inventario"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/red_500"
+        app:icon="@drawable/ic_good"
+        app:iconGravity="top"
+        app:iconPadding="-20dp"
+        app:iconSize="80dp" />
+
+</LinearLayout>
+

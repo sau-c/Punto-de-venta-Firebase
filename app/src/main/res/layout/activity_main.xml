@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_welcome.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="50dp" >
+
+    <Button
+        android:id="@+id/buttonSell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/montserrat"
+        android:paddingTop="20dp"
+        android:text="Vender"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_500"
+        app:icon="@drawable/ic_money"
+        app:iconGravity="top"
+        app:iconPadding="-20dp"
+        app:iconSize="80dp" />
+
+    <Button
+        android:id="@+id/buttonHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/montserrat"
+        android:paddingTop="20dp"
+        android:text="Venta del dia"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green_500"
+        app:icon="@drawable/ic_assignament"
+        app:iconGravity="top"
+        app:iconPadding="-20dp"
+        app:iconSize="80dp" />
+
+    <Button
+        android:id="@+id/buttonInventory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/montserrat"
+        android:paddingTop="20dp"
+        android:text="Inventario"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/red_500"
+        app:icon="@drawable/ic_search"
+        app:iconGravity="top"
+        app:iconPadding="-20dp"
+        app:iconSize="80dp" />
+
+</LinearLayout>
+
