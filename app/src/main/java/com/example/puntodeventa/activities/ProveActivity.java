@@ -95,15 +95,11 @@ public class ProveActivity extends AppCompatActivity {
                                     });
                         }
                     })
-                    .setNegativeButton("No", null)
-                    .show();
-
+                    .setNegativeButton("No", null).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     private void compareProduct() {
         DatabaseReference accesoriosRef = dbRef.child("accesorios");
@@ -138,6 +134,13 @@ public class ProveActivity extends AppCompatActivity {
                             if (matchingTempAccesorio == null || accesorioTemp.getStock() != matchingTempAccesorio.getStock()) {
                                 // Si el accesorio no se encuentra en "accesorios_temp" o el stock es diferente
                                 accesorioList.add(accesorioTemp);
+                            }
+                        }
+
+                        // Verificar los elementos que no contaste pero que existen en "accesorios"
+                        for (Accesorio accesorio : accesorios) {
+                            if (findMatchingAccesorio(accesorio, accesoriosTemp) == null) {
+                                accesorioList.add(accesorio);
                             }
                         }
 
