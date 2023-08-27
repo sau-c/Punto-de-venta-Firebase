@@ -2,6 +2,8 @@ package com.example.puntodeventa.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,8 +32,8 @@ import java.util.Date;
 
 public class SellActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
-    EditText etId;
-    TextView etProducto, etMarca, etPrecio, etStock;
+    EditText etId, etStock;
+    TextView etProducto, etMarca, etPrecio;
     AppCompatButton btnSell;
 
     @Override
@@ -49,6 +51,28 @@ public class SellActivity extends AppCompatActivity {
         btnSell = findViewById(R.id.btn_sell);
 
         btnSell.setOnClickListener(v -> sellProduct());
+
+        //PARA EVITAR ERRORES DE USUARIO
+        etId.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Este método se llama cuando el texto en el EditText de ID cambia
+                // Si el EditText de ID está vacío, limpia los otros TextViews
+                etProducto.setText("");
+                etMarca.setText("");
+                etPrecio.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     public void startScan(View view) {
@@ -95,6 +119,44 @@ public class SellActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    public void startSearch(View view) {
+        // Obtén el ID ingresado en el EditText y elimina espacios en blanco
+        String id = etId.getText().toString().trim();
+
+        if (!id.isEmpty()) {
+            // Crea una referencia al nodo "accesorios" en la base de datos
+            DatabaseReference accesorioRef = dbRef.child("accesorios").child(id);
+
+            // Escucha una sola vez los datos en el nodo específico
+            accesorioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Si el nodo existe, obtén los datos y actualiza los EditText
+                        Accesorio accesorio = dataSnapshot.getValue(Accesorio.class);
+                        etId.setText(accesorio.getId());
+                        etProducto.setText(accesorio.getProducto());
+                        etMarca.setText(accesorio.getMarca());
+                        etPrecio.setText(String.valueOf(accesorio.getPrecio()));
+                    } else {
+                        // Si el nodo no existe, muestra un mensaje de error
+                        Toast.makeText(SellActivity.this, "ID NO ENCONTRADO EN LA BASE DE DATOS", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Maneja errores de base de datos
+                    Toast.makeText(SellActivity.this, "ERROR AL OBTENER DATOS: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            // Si no se ingresó un ID, muestra un mensaje de error
+            Toast.makeText(SellActivity.this, "INGRESA EL ID PARA BUSCAR", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     public void sellProduct() {
         String id = etId.getText().toString().trim();

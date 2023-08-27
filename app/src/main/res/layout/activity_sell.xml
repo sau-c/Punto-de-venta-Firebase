@@ -33,7 +33,7 @@
             android:layout_marginHorizontal="10dp"
             app:icon="@drawable/ic_search"
             app:iconSize="30dp"
-            android:onClick="startScan"/>
+            android:onClick="startSearch"/>
 
         <Button
             android:id="@+id/button_scan"
