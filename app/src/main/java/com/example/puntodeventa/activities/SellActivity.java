@@ -175,7 +175,7 @@ public class SellActivity extends AppCompatActivity {
         String hora = horaFormat.format(currentDate);
 
         // Check if any field is empty
-        if (id.isEmpty() || producto.isEmpty() || marca.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+        if (id.isEmpty() || producto.isEmpty() || marca.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || stockStr.equals("0")) {
             Toast.makeText(this, "HAY CAMPOS VACIOS", Toast.LENGTH_LONG).show();
             return;
         }
