@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -127,18 +129,48 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Accesorio accesorio = mutableData.getValue(Accesorio.class);
-                Accesorio venta = new Accesorio(id, producto, marca, precio, cantidadVendida, hora); //agregar dia
+                Accesorio venta = new Accesorio(id, producto, marca, precio, cantidadVendida, hora);
 
                 if (accesorio == null) {
                     return Transaction.success(mutableData);
                 }
 
                 int stockActual = accesorio.getStock();
+
                 if (stockActual >= cantidadVendida) {
                     int nuevoStock = stockActual - cantidadVendida;
                     accesorio.setStock(nuevoStock);
                     mutableData.setValue(accesorio);
-                    ventasRef.push().setValue(venta); // push Crea ID unico para cada venta
+
+                    // Guardar la venta en la base de datos de ventas
+                    ventasRef.push().setValue(venta);
+
+                    // Obtener el valor actual de "total" desde Firebase
+                    DatabaseReference totalRef = ventasRef.child("total");
+                    totalRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            double total = 0;
+
+                            // Obtener el valor actual de "total" si existe
+                            if (dataSnapshot.exists()) {
+                                total = Double.parseDouble(dataSnapshot.getValue().toString());
+                            }
+
+                            // Actualizar el total con la nueva venta
+                            total += precio * cantidadVendida;
+                            total = Math.round(total * 100.0) / 100.0;
+
+                            // Guardar el nuevo valor de "total" en Firebase
+                            totalRef.setValue(total);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Manejar errores de Firebase
+                        }
+                    });
+
                     return Transaction.success(mutableData);
                 } else {
                     return Transaction.abort();

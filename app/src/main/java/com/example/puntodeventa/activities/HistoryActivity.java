@@ -90,17 +90,22 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ventaList.clear();
-                double total = 0;
 
                 for (DataSnapshot accesorioSnapshot : dataSnapshot.getChildren()) {
-                    Accesorio accesorio = accesorioSnapshot.getValue(Accesorio.class);
-                    ventaList.add(accesorio);
-                    total = accesorio.getStock() * accesorio.getPrecio() + total;
+                    if(!accesorioSnapshot.getKey().equals("total")){
+                        Accesorio accesorio = accesorioSnapshot.getValue(Accesorio.class);
+                        ventaList.add(accesorio);
+                    }
+                }
+                // Verificar si el nodo "total" existe en el DataSnapshot
+                if (dataSnapshot.hasChild("total")) {
+                    String total = String.valueOf(dataSnapshot.child("total").getValue());
+                    tTotal.setText(total);
+                } else {
+                    // Si no existe, establece el valor de "total" en 0
+                    tTotal.setText("0");
                 }
 
-                total = Math.round(total * 100.0) / 100.0;
-                tTotal.setText(String.valueOf(total));
-                
                 setAccesorioAdapter(ventaList);
                 progressDialog.dismiss();
             }
