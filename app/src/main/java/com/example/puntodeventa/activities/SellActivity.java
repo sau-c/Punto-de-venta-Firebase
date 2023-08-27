@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,8 @@ import java.util.Date;
 
 public class SellActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
-    EditText etId, etProducto, etMarca, etPrecio, etStock;
+    EditText etId;
+    TextView etProducto, etMarca, etPrecio, etStock;
     AppCompatButton btnSell;
 
     @Override

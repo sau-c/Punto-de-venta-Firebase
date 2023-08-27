@@ -8,69 +8,120 @@
     android:padding="20dp"
     tools:context=".activities.SellActivity">
 
-    <Button
-        android:id="@+id/buttonScan"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Escanear codigo"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:icon="@drawable/ic_camera"
-        app:iconGravity="start"
-        app:iconSize="30dp"
-        android:onClick="startScan"/>
+        android:orientation="horizontal">
 
-    <!-- EditText para ingresar el Producto -->
-    <EditText
-        android:id="@+id/et_id"
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Buscar o escanear ID..."
+            android:textStyle="bold"
+            android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:textColorHint="@color/blue_500"
+            android:textColor="@color/blue_500"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:icon="@drawable/ic_search"
+            app:iconSize="30dp"
+            android:onClick="startScan"/>
+
+        <Button
+            android:id="@+id/button_scan"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_camera"
+            app:iconSize="30dp"
+            android:onClick="startScan"/>
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="ID"
-        android:inputType="text"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        android:textColorHint="@color/blue_500"
+        android:layout_marginStart="10dp"
+        android:text="Producto"
+        android:textStyle="bold"
         android:textSize="16sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_producto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Producto"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:hint="..."
         android:inputType="text"
-        android:textColorHint="@color/blue_500"
         android:textSize="16sp" />
 
-    <EditText
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:text="Marca"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
         android:id="@+id/et_marca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Marca"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:hint="..."
         android:inputType="text"
-        android:textColorHint="@color/blue_500"
         android:textSize="16sp" />
 
-    <EditText
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:text="Precio"
+        android:textStyle="bold"
+        android:inputType="numberDecimal"
+        android:textSize="16sp"/>
+
+    <TextView
         android:id="@+id/et_precio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:hint="Precio"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:hint="..."
         android:inputType="numberDecimal"
-        android:textColorHint="@color/blue_500"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:text="Cantidad"
+        android:textStyle="bold"
+        android:inputType="numberDecimal"
         android:textSize="16sp"/>
 
     <EditText
         android:id="@+id/et_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:hint="Cantidad"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:hint="Ingrese la cantidad..."
         android:inputType="number"
+        android:textStyle="bold"
+        android:textColor="@color/blue_500"
         android:textColorHint="@color/blue_500"
         android:textSize="16sp" />
 
@@ -86,4 +137,3 @@
         android:textSize="16sp" />
 
 </LinearLayout>
-
