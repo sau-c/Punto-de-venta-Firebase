@@ -79,14 +79,12 @@ public class InventoryActivity extends AppCompatActivity{
                 return true;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-//        dbRef = FirebaseDatabase.getInstance().getReference().child("pass");
 
         if (id == R.id.action_admin) {
             startActivity(new Intent(this, AdminActivity.class)

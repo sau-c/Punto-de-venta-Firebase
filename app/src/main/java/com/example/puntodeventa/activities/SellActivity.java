@@ -120,9 +120,8 @@ public class SellActivity extends AppCompatActivity {
 
         // Obtener una referencia al accesorio en la base de datos
         DatabaseReference accesorioRef = dbRef.child("accesorios").child(id);
-        DatabaseReference ventasRef = dbRef.child("ventas").child(dia).push(); // Crea una nueva referencia única para la venta
+        DatabaseReference ventasRef = dbRef.child("ventas").child(dia); // Crea Referencia al dia
 
-        //ventasRef.setValue(accesorio);
         // Ejecutar la transacción
         accesorioRef.runTransaction(new Transaction.Handler() {
             @Override
@@ -139,7 +138,7 @@ public class SellActivity extends AppCompatActivity {
                     int nuevoStock = stockActual - cantidadVendida;
                     accesorio.setStock(nuevoStock);
                     mutableData.setValue(accesorio);
-                    ventasRef.setValue(venta);
+                    ventasRef.push().setValue(venta); // push Crea ID unico para cada venta
                     return Transaction.success(mutableData);
                 } else {
                     return Transaction.abort();

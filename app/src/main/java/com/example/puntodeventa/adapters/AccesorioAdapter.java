@@ -2,6 +2,7 @@ package com.example.puntodeventa.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -56,8 +57,8 @@ public class AccesorioAdapter extends RecyclerView.Adapter<AccesorioAdapter.Acce
         String full_name = pos.getProducto() + " " + pos.getMarca();
         holder.tId.setText(pos.getId());
         holder.tFullName.setText(full_name);
-        holder.tPrecio.setText(String.valueOf(pos.getPrecio()));
-        holder.tStock.setText(String.valueOf(pos.getStock())); //leer de String a entero
+        holder.tPrecio.setText(String.valueOf(pos.getPrecio())); //leer de String a entero
+        holder.tStock.setText(String.valueOf(pos.getStock()));   //leer de String a entero
         holder.tHora.setText(pos.getTiempo());
         holder.tDate.setText(pos.getTiempo());
     }
