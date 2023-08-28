@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -35,7 +36,8 @@ import java.util.List;
 public class ProveActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private AppCompatButton btnCompare, btnViewCount;
-    private TextView tTile;
+    private TextView tTile, tvProducto;
+    private EditText etId;
     ProgressDialog progressDialog;
     private List<Accesorio> accesorioList;
     private RecyclerView recyclerAccesorio;
@@ -51,7 +53,10 @@ public class ProveActivity extends AppCompatActivity {
         btnCompare = findViewById(R.id.btn_compare);
         btnViewCount = findViewById(R.id.btn_view);
         tTile = findViewById(R.id.tvTitle);
+        etId = findViewById(R.id.et_id); // Id en tu layout
+        tvProducto = findViewById(R.id.tv_producto); // Stock en tu layout
 
+        //Recycler discrepancias
         recyclerAccesorio = findViewById(R.id.recycler_accesorio);
         accesorioList = new ArrayList<>();
         accesorioAdapter = new AccesorioAdapter(ProveActivity.this, accesorioList);
@@ -198,7 +203,6 @@ public class ProveActivity extends AppCompatActivity {
         }
     }
 
-
     private void setAccesorioAdapter(List<Accesorio> accesorioList) {
         LinearLayoutManager manager = new LinearLayoutManager(ProveActivity.this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -249,29 +253,47 @@ public class ProveActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,  @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (result != null) {
-            if (result.getContents() == null) {
+        if (result != null){
+            if (result.getContents() == null){
                 Toast.makeText(this, "LECTURA CANCELADA", Toast.LENGTH_LONG).show();
             } else {
                 String scannedId = result.getContents();
-                countProduct(scannedId);
+                DatabaseReference accesorioRef = dbRef.child("accesorios").child(scannedId);
+                accesorioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Accesorio accesorio = dataSnapshot.getValue(Accesorio.class);
+                            etId.setText(accesorio.getId());
+                            tvProducto.setText(accesorio.getProducto());
+                        } else {
+                            Toast.makeText(ProveActivity.this, "ID NO ENCONTRADO EN LA BASE DE DATOS", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(ProveActivity.this, "ERROR AL OBTENER DATOS", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void countProduct(String scannedId) {
+    public void countProduct(View view) {
         ProgressDialog progressDialog = ProgressDialog.show(this,
                 "Contando nuevo accesorio",
                 "Espere por favor",
                 true,
                 false);
+
+        String scannedId = etId.getText().toString().trim();
 
         // Verificar si el ID existe en la base de datos "accesorios"
         DatabaseReference accesoriosRef = dbRef.child("accesorios").child(scannedId);
@@ -305,7 +327,7 @@ public class ProveActivity extends AppCompatActivity {
                         public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
                             progressDialog.dismiss();
                             if (committed && error == null) {
-                                Toast.makeText(ProveActivity.this, "CONTEO EXITOSO", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ProveActivity.this, "CONTEO EXITOSO", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ProveActivity.this, "ERROR DE CONTEO", Toast.LENGTH_LONG).show();
                             }
@@ -324,5 +346,40 @@ public class ProveActivity extends AppCompatActivity {
                 Toast.makeText(ProveActivity.this, "ERROR AL OBTENER DATOS", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void startSearch(View view) {
+        // Obtén el ID ingresado en el EditText y elimina espacios en blanco
+        String id = etId.getText().toString().trim();
+
+        if (!id.isEmpty()) {
+            // Crea una referencia al nodo "accesorios" en la base de datos
+            DatabaseReference accesorioRef = dbRef.child("accesorios").child(id);
+
+            // Escucha una sola vez los datos en el nodo específico
+            accesorioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Si el nodo existe, obtén los datos y actualiza los EditText
+                        Accesorio accesorio = dataSnapshot.getValue(Accesorio.class);
+                        etId.setText(accesorio.getId());
+                        tvProducto.setText(accesorio.getProducto());
+                    } else {
+                        // Si el nodo no existe, muestra un mensaje de error
+                        Toast.makeText(ProveActivity.this, "ID NO ENCONTRADO EN LA BASE DE DATOS", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Maneja errores de base de datos
+                    Toast.makeText(ProveActivity.this, "ERROR AL OBTENER DATOS: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            // Si no se ingresó un ID, muestra un mensaje de error
+            Toast.makeText(ProveActivity.this, "INGRESA EL ID PARA BUSCAR", Toast.LENGTH_LONG).show();
+        }
     }
 }

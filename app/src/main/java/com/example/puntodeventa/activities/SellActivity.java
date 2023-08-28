@@ -44,7 +44,7 @@ public class SellActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         etId = findViewById(R.id.et_id); // Id en tu layout
-        etProducto = findViewById(R.id.et_producto); // Producto en tu layout
+        etProducto = findViewById(R.id.tv_producto); // Producto en tu layout
         etMarca = findViewById(R.id.et_marca); // Marca en tu layout
         etPrecio = findViewById(R.id.et_precio); // Precio en tu layout
         etStock = findViewById(R.id.et_stock); // Stock en tu layout

@@ -7,19 +7,76 @@
     android:orientation="vertical"
     tools:context=".activities.ProveActivity">
 
-    <Button
-        android:id="@+id/button_scan"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Contar productos"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:icon="@drawable/ic_camera"
-        app:iconGravity="start"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp">
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Buscar o escanear ID..."
+            android:textStyle="bold"
+            android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:textColorHint="@color/blue_500"
+            android:textColor="@color/blue_500"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:icon="@drawable/ic_search"
+            app:iconSize="30dp"
+            android:onClick="startSearch"/>
+
+        <Button
+            android:id="@+id/button_scan"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_camera"
+            app:iconSize="30dp"
+            android:onClick="startScan"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Producto: "
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_producto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="..."
+            android:inputType="text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:text="CONTAR"
         app:iconSize="30dp"
-        android:onClick="startScan"/>
+        android:backgroundTint="@color/green_500"
+        android:onClick="countProduct" />
 
     <LinearLayout
         android:layout_width="match_parent"

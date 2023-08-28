@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         etId = findViewById(R.id.et_id);
-        etProducto = findViewById(R.id.et_producto);
+        etProducto = findViewById(R.id.tv_producto);
         etMarca = findViewById(R.id.et_marca);
         etPrecio = findViewById(R.id.et_precio);
         etStock = findViewById(R.id.et_stock);
